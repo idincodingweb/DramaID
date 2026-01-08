@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { User, MapPin, Code, Heart, Film, Sparkles } from "lucide-react";
-import developerPhoto from "@/assets/developer-profile.jpg";
+import developerPhoto from "@/assets/IMG_20260108_00352181.jpeg";
 
 const About = () => {
   return (

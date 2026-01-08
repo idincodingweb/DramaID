@@ -5,7 +5,18 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Loader2, AlertCircle } from "luci
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchDramaDetail, fetchAllEpisodes, getVideoUrl } from "@/lib/api";
+import { VideoQualitySelector } from "@/components/VideoQualitySelector";
+import { fetchDramaDetail, fetchAllEpisodes, getVideoUrl, Episode } from "@/lib/api";
+
+// Get available qualities from episode
+function getAvailableQualities(episode: Episode | undefined): number[] {
+  if (!episode?.cdnList?.length) return [360, 540, 720, 1080];
+  
+  const cdn = episode.cdnList.find((c) => c.isDefault === 1) || episode.cdnList[0];
+  if (!cdn?.videoPathList?.length) return [360, 540, 720, 1080];
+  
+  return cdn.videoPathList.map((v) => v.quality).sort((a, b) => a - b);
+}
 
 const Watch = () => {
   const { bookId, episodeNum } = useParams<{ bookId: string; episodeNum: string }>();
@@ -13,6 +24,11 @@ const Watch = () => {
   const currentEpisode = parseInt(episodeNum || "1", 10);
   const [episodePage, setEpisodePage] = useState(1);
   const [videoError, setVideoError] = useState(false);
+  const [videoQuality, setVideoQuality] = useState(() => {
+    // Load saved quality preference
+    const saved = localStorage.getItem("dramaid_video_quality");
+    return saved ? parseInt(saved, 10) : 720;
+  });
   const episodesPerPage = 30;
 
   const { data: drama } = useQuery({
@@ -32,7 +48,15 @@ const Watch = () => {
 
   // Get current episode data and extract video URL
   const currentEpisodeData = episodes?.[currentEpisode - 1];
-  const videoUrl = getVideoUrl(currentEpisodeData, 720);
+  const videoUrl = getVideoUrl(currentEpisodeData, videoQuality);
+  const availableQualities = getAvailableQualities(currentEpisodeData);
+
+  // Handle quality change
+  const handleQualityChange = (quality: number) => {
+    setVideoQuality(quality);
+    localStorage.setItem("dramaid_video_quality", quality.toString());
+    setVideoError(false);
+  };
 
   // Reset video error when episode changes
   useEffect(() => {
@@ -80,14 +104,14 @@ const Watch = () => {
           </Link>
 
           {/* Video Player */}
-          <div className="video-container aspect-video mb-6 rounded-2xl overflow-hidden bg-card">
+          <div className="video-container aspect-video mb-4 rounded-2xl overflow-hidden bg-card">
             {episodesLoading ? (
               <div className="w-full h-full flex items-center justify-center">
                 <Skeleton className="w-full h-full" />
               </div>
             ) : videoUrl && !videoError ? (
               <video
-                key={videoUrl}
+                key={`${videoUrl}-${videoQuality}`}
                 src={videoUrl}
                 controls
                 autoPlay
@@ -105,7 +129,7 @@ const Watch = () => {
                     <>
                       <AlertCircle className="w-12 h-12 mx-auto mb-3 text-destructive" />
                       <p className="font-medium mb-2">Video tidak dapat diputar</p>
-                      <p className="text-sm">Coba episode lain atau refresh halaman</p>
+                      <p className="text-sm">Coba kualitas lain atau episode lain</p>
                     </>
                   ) : !episodes?.length ? (
                     <>
@@ -121,6 +145,15 @@ const Watch = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Video Quality Selector */}
+          <div className="flex justify-end mb-4">
+            <VideoQualitySelector
+              currentQuality={videoQuality}
+              availableQualities={availableQualities}
+              onQualityChange={handleQualityChange}
+            />
           </div>
 
           {/* Episode Info & Navigation */}

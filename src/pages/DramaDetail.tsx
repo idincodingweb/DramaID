@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchDramaDetail, fetchAllEpisodes } from "@/lib/api";
 import { addToWatchlist, removeFromWatchlist, isInWatchlist } from "@/lib/watchlist";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const DramaDetail = () => {
+  const { toast } = useToast();
   const { bookId } = useParams<{ bookId: string }>();
   const navigate = useNavigate();
   const [inWatchlist, setInWatchlist] = useState(false);

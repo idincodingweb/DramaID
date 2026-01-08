@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { getWatchlist, removeFromWatchlist, WatchlistItem } from "@/lib/watchlist";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const Watchlist = () => {
+  const { toast } = useToast();
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
 
   useEffect(() => {

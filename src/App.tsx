@@ -9,6 +9,7 @@ import Watch from "./pages/Watch";
 import Watchlist from "./pages/Watchlist";
 import Trending from "./pages/Trending";
 import Search from "./pages/Search";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/about" element={<About />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -106,7 +106,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8">
         <div className="container text-center text-muted-foreground text-sm">
-          <p>© 2026 DramaBox. Streaming drama pendek terbaik.</p>
+          <p>© 2026 DramaID. Streaming drama pendek terbaik.</p>
         </div>
       </footer>
     </div>

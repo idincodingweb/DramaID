@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Menu, X, Play, Bookmark, Home, TrendingUp } from "lucide-react";
+import { Search, Menu, X, Play, Bookmark, Home, TrendingUp, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -22,6 +22,7 @@ export function Header() {
     { to: "/", label: "Beranda", icon: Home },
     { to: "/trending", label: "Trending", icon: TrendingUp },
     { to: "/watchlist", label: "Watchlist", icon: Bookmark },
+    { to: "/about", label: "About", icon: Info },
   ];
 
   return (
@@ -33,7 +34,7 @@ export function Header() {
             <Play className="w-5 h-5 text-primary-foreground fill-current" />
           </div>
           <span className="font-display font-bold text-xl gradient-text hidden sm:block">
-            DramaBox
+            DramaID
           </span>
         </Link>
 

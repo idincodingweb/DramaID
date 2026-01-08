@@ -102,10 +102,7 @@ const About = () => {
               </div>
 
               <p>
-                Website ini dibuat dengan penuh dedikasi menggunakan <strong className="text-foreground">Lovable.dev</strong>, 
-                sebuah platform AI-powered development yang memungkinkan pembuatan aplikasi web 
-                modern dengan cepat dan efisien. Proyek ini memanfaatkan API publik untuk 
-                menyediakan konten drama yang lengkap dan up-to-date.
+                Website ini dibuat dengan penuh dedikasi menggunakan <strong className="text-foreground">REACT JS</strong>
               </p>
             </div>
           </section>
